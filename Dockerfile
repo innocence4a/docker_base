@@ -16,7 +16,7 @@ RUN apt-get update && \
         libbz2-dev \
         libreadline-dev \
         libgdbm-dev \
-        # libsqlite3-dev \
+        libsqlite3-dev \
         wget \
         curl \
         # llvm \
@@ -32,9 +32,9 @@ RUN apt-get update && \
         locales
 RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
 
-RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0a1.tar.xz  && \
-    tar -xJf ./Python-3.12.0a1.tar.xz && \
-    cd Python-3.12.0a1  && \
+RUN wget https://www.python.org/ftp/python/3.10.9/Python-3.10.9.tar.xz  && \
+    tar -xJf ./Python-3.10.9.tar.xz && \
+    cd Python-3.10.9  && \
     ./configure  && \
     make  && \
     sudo make install
@@ -53,9 +53,12 @@ ENV TZ JST-9
 ENV TERM xterm
 
 RUN sudo apt install -y python3-pip
-RUN pip install --upgrade pip
-RUN pip install --upgrade setuptools
+# RUN pip install --upgrade pip
+# RUN pip install --upgrade setuptools
 RUN cd ..
 COPY ./opt/requirements.txt ./requirements.txt
-RUN python3.12 -m pip install -r ./requirements.txt
+RUN python3.10 -m pip install --upgrade pip
+# RUN python3.11 -m pip install --upgrade setuptools
+RUN python3.10 -m pip install -r ./requirements.txt
 # RUN python -m pip install jupyterlab
+EXPOSE 8888
